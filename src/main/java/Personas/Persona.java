@@ -37,6 +37,11 @@ public class Persona {
 
   @OneToOne(cascade=CascadeType.ALL)
   @NotFound(action = NotFoundAction.IGNORE)
+  @JoinColumn(name="id_delegacion",referencedColumnName = "id_delegacion")
+  private Delegacion delegacion;
+
+  @OneToOne(cascade=CascadeType.ALL)
+  @NotFound(action = NotFoundAction.IGNORE)
   @JoinColumn(name="id_usuario",referencedColumnName = "id_usuario")
   private Usuario usuario;
 
@@ -58,8 +63,17 @@ public class Persona {
   }
 
 
+
   //GETTERS
 
+
+  public Delegacion getDelegacion() {
+    return delegacion;
+  }
+
+  public void setDelegacion(Delegacion delegacion) {
+    this.delegacion = delegacion;
+  }
 
   public LocalDate getFechaNacimiento() {
     return fechaNacimiento;

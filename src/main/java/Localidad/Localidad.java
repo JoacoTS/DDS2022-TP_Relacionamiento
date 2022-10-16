@@ -2,22 +2,26 @@ package Localidad;
 
 import Personas.Persona;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "localidad")
 public class Localidad {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id_localidad;
 
+  @Column
   private String nombre;
 
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "id_ciudad",referencedColumnName = "id_ciudad")
   private Ciudad ciudad;
 
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "localidad")
   private List<Persona> personas = new ArrayList();
 
   public Localidad(String nombre, Ciudad ciudad) {

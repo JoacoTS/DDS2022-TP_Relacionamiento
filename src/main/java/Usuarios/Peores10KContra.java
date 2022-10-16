@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Peores10KContra implements CriterioValidacion {
   //////////////////////////////////  VARIABLES
-  private String rutaPeoresContra = "src/main/java/Domain/Usuarios/10kPasswords.txt";
+  private String rutaPeoresContra = "src/main/java/Usuarios/10kPasswords.txt";
 
   //////////////////////////////////  CONSTRUCTORES
 
