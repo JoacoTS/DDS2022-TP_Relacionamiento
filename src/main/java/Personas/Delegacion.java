@@ -17,11 +17,11 @@ public class Delegacion {
   @JoinColumn(name="id_personaDelegada",referencedColumnName = "id_persona")
   private Persona personaDelegada;
 
-  /*
+
   @OneToOne(cascade=CascadeType.ALL)
   @NotFound(action = NotFoundAction.IGNORE)
   @JoinColumn(name="id_personaTitular",referencedColumnName = "id_persona")
-  private Persona personaTitular;*/
+  private Persona personaTitular;
 
   @Column
   private Boolean aceptada;

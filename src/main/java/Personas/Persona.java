@@ -45,6 +45,10 @@ public class Persona {
   @JoinColumn(name="id_usuario",referencedColumnName = "id_usuario")
   private Usuario usuario;
 
+
+  public Persona() {
+  }
+
   public Persona(LocalDate fechaNacimiento, Localidad localidad, String foto, String dni, String nombre, String apellido) {
     this.fechaNacimiento = fechaNacimiento;
     this.localidad = localidad;

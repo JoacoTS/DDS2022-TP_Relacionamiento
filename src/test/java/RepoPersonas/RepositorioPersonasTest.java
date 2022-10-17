@@ -10,16 +10,16 @@ import java.time.LocalDate;
 public class RepositorioPersonasTest {
   public static void main(String[] args) {
 
-    Persona persona = new Persona(LocalDate.now() , "ruta", "1235245", "personaNombre", "personaApellido");
+    //Persona persona = new Persona(LocalDate.now() , "ruta", "1235245", "personaNombre", "personaApellido");
 
-    Usuario user = new Usuario("personaUser","contra1234");
+    Usuario user = new Usuario("personaUser2","contra1234");
 
-    persona.setUsuario(user);
+    //persona.setUsuario(user);
 
     RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
-    repositorioPersonasDB.agregar(persona);
+    //repositorioPersonasDB.agregar(persona);
 
-    repositorioPersonasDB.crearPersona("personaNombre", "personaApellido", "213431351", user, LocalDate.of(2022,5,3));
+    repositorioPersonasDB.crearPersona("personaNombre", "personaApellido", "2134318351", user, LocalDate.of(2022,5,3));
 
   }
 }

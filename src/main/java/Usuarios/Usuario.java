@@ -37,8 +37,10 @@ public class Usuario {
       this.username = username;
     }
 
+  public Usuario() {
+  }
 
-    //////////////////////////////////  GETTERS
+  //////////////////////////////////  GETTERS
 
     public String getUsername() {
       return this.username;

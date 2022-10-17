@@ -1,12 +1,16 @@
 package Repositorios;
 
 
+import Personas.Delegacion;
 import Personas.Excepciones.PersonaException;
 import Personas.Persona;
 import Usuarios.Usuario;
 
 import javax.persistence.criteria.*;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class RepositorioPersonasDB extends Repositorio<Persona>{
 
@@ -93,7 +97,7 @@ public class RepositorioPersonasDB extends Repositorio<Persona>{
 
     //condicionRaiz.join("usuario");
 
-    Predicate condicionNroDocumento = criteriaBuilder.like(condicionRaiz.get("nroDocumento"), "%"+ nroDocumento +"%");
+    Predicate condicionNroDocumento = criteriaBuilder.like(condicionRaiz.get("dni"), "%"+ nroDocumento +"%");
     //Predicate condicionContrasenia = criteriaBuilder.equal(condicionRaiz.get("password"), contrasenia);
 
     //Predicate condicionExisteUsuario = criteriaBuilder.and(condicionNombreDeUsuario, condicionContrasenia);
@@ -102,4 +106,18 @@ public class RepositorioPersonasDB extends Repositorio<Persona>{
 
     return new BusquedaCondicional(null, personaCriteriaQuery);
   }
+
+
+  public List<Persona> getPersonas(){
+    return this.dbService.buscarTodos();
+  }
+
+  public List<Delegacion> getDelegaciones(){
+    List<Delegacion> delegaciones = getPersonas().stream().map(Persona::getDelegacion).collect(Collectors.toList());
+
+    delegaciones.removeIf(Objects::isNull);
+
+    return delegaciones;
+  }
+
 }
