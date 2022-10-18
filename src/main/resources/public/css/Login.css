@@ -244,7 +244,7 @@ textarea {
   width: 0;
   height: 0;
   border: 6px solid transparent;
-  border-color: #fff transparent transparent transparent;
+  border-color: rgb(133, 35, 35) transparent transparent transparent;
 }
 
 /* Point the arrow upwards when the select box is open (active): */
@@ -255,7 +255,7 @@ textarea {
 
 /* style the items (options), including the selected item: */
 .select-items div,.select-selected {
-  color: #ffffff;
+  color: #e64747;
   padding: 8px 16px;
   border: 1px solid transparent;
   border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
@@ -265,7 +265,7 @@ textarea {
 /* Style items (options): */
 .select-items {
   position: absolute;
-  background-color: DodgerBlue;
+  background-color: rgb(51, 69, 87);
   top: 100%;
   left: 0;
   right: 0;
@@ -376,7 +376,8 @@ textarea {
       color: rgb(206, 206, 206,63);
       font-weight: 700;
       font-size: 34px;
-      margin-left: 94px;
+      margin-left: 62%;
+      
   }
 }
 body {font-family: Arial, Helvetica, sans-serif;}
