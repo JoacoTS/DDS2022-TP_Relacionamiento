@@ -167,25 +167,55 @@
             }
           </script>
 
-        </form>
-
       </div>
     </div>    
-  </div>
 
-  <div id="myModal" class="modal-reg">
+  <div class="tab-content">
+    <div id="signIn">
 
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <p>Se ha registrado con éxito</p>
-      <button type="mybtn" class="button button-modal"
-        onclick="window.location.href='/menu_logueado'">OK</button>
+      <form class="" action="/loguearse" method="post" style="">
+
+        <div class="field-wrap">
+          <label>
+            Nombre de Usuario <span class="req">*</span>
+          </label>
+          <br>
+          <br>
+          <input type="text" required autocomplete="off" id="NombreUsuario" name="usuario" class="input-datos" />
+        </div>
+
+        <div class="field-wrap">
+          <label>
+            Contraseña<span class="req">*</span>
+          </label>
+          <br>
+          <br>
+          <input type="password" required autocomplete="off" id="Password" name="password" class="input-datos" />
+        </div>
+
+        <button type="submit" class="button button-back" onclick="window.location.href='./menu_logueado'">Iniciar
+          Sesión</button>
+
+      </form>
+
     </div>
+
   </div>
 
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-  <script src="../public/js/Login.js"></script>
+</div>
+<div id="myModal" class="modal-reg">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Se ha registrado con éxito</p>
+    <button type="mybtn" class="button button-modal"
+      onclick="window.location.href='/menu_logueado'">OK</button>
+  </div>
+</div>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src="../public/js/Login.js"></script>
 
 </body>
 
