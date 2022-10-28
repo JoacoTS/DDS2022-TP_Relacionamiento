@@ -17,7 +17,7 @@
             crossorigin="anonymous"></script>
     <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-    <link rel="stylesheet" href="../public/css/Login.css">
+    <link rel="stylesheet" href="/css/Login.css">
 
 </head>
 
@@ -51,7 +51,7 @@
 
             <h1>¡Registrate!</h1>
 
-            <form class="" style="">
+            <form class="" style="" method="post" action="/menu_login/r">
 
                 <h2>Datos personales</h2>
 
@@ -166,14 +166,14 @@
               }
             }
           </script>
-
+            </form>
         </div>
     </div>
 
     <div class="tab-content">
         <div id="signIn">
 
-            <form class="" action="/loguearse" method="post" style="">
+            <form class="" action="/menu_usuario" method="post">
 
                 <div class="field-wrap">
                     <label>
@@ -181,7 +181,7 @@
                     </label>
                     <br>
                     <br>
-                    <input type="text" required autocomplete="off" id="NombreUsuario" name="usuario" class="input-datos" />
+                    <input type="text" required autocomplete="off" id="NombreUsuario" name="usuario" class="input-datos"/>
                 </div>
 
                 <div class="field-wrap">
@@ -190,10 +190,10 @@
                     </label>
                     <br>
                     <br>
-                    <input type="password" required autocomplete="off" id="Password" name="password" class="input-datos" />
+                    <input type="password" required autocomplete="off" id="Password" name="password" class="input-datos"/>
                 </div>
 
-                <button type="submit" class="button button-back" onclick="window.location.href='./menu_logueado'">Iniciar
+                <button type="submit" class="button button-back" onclick="window.location.href='/menu_login/:usuario'">Iniciar
                     Sesión</button>
 
             </form>
@@ -209,13 +209,13 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <p>Se ha registrado con éxito</p>
-        <button type="mybtn" class="button button-modal"
-                onclick="window.location.href='/menu_logueado'">OK</button>
+        <button type="mybtn" class="button button-modal">
+            <!--onclick="window.location.href='/menu_logueado'">-->OK</button>
     </div>
 </div>
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script src="../public/js/Login.js"></script>
+<script src="/js/Login.js"></script>
 
 </body>
 

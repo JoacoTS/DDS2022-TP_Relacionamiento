@@ -21,6 +21,48 @@ public class LoginController {
     return new ModelAndView(parametros,"Login.hbs");
   }
 
+  public ModelAndView loguear_usuario(Request request, Response response){
+    String nombre_usuario = request.queryParams("usuario");
+    String password = request.queryParams("password");
+
+    System.out.println(nombre_usuario);
+    System.out.println(password);
+    //TODO: Verificar usuario
+    //if no coincide -> pagina = "Login.hbs"
+    //else -> pagina = "MenuUsuario.hbs"
+    String pagina = "Login.hbs";
+
+    HashMap<String, String> params = new HashMap<>();
+    params.put("usuario", nombre_usuario);
+
+    return new ModelAndView(params, pagina);
+  }
+
+  public ModelAndView registrar_usuario(Request request, Response response){
+    Usuario usuario = new Usuario();
+
+
+    //TODO: Verificar que exista Persona en base de datos
+    request.queryParams("Nombre");
+    request.queryParams("Apellido");
+    request.queryParams("Fecha de nacimiento");
+    request.queryParams("Ciudad");
+    request.queryParams("Localidad");
+
+    usuario.setUsername(request.queryParams("usuario"));
+
+    //TODO: hashear contrasenia
+    String contraHasheada = request.queryParams("password");
+    usuario.setContraHasheada(contraHasheada);
+
+    //if persona existe -> response.redirect
+    request.session().attribute("usuario", request.queryParams("usuario"));
+    response.redirect("/menu_usuario");
+    //response.redirect("/menu_usuario/"+request.queryParams("usuario"));
+    //else "Login.hbs"
+    return new ModelAndView(new HashMap<>(), "Login.hbs");
+  }
+
   /**
   public Response login(Request request, Response response){
     try{
