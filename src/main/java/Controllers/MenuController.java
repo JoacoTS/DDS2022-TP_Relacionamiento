@@ -25,11 +25,12 @@ public class MenuController {
     }
 
     public ModelAndView menuAutorizarUsuario(Request request, Response response){
-        HashMap<String, String> params = new HashMap<>();
+        HashMap<String, Object> params = new HashMap<>();
 
         if(request.session().attribute("usuario") == null)
             response.redirect("/menu_login");
 
+        params.put("se_realizo_pedido_operacion", false);
         return new ModelAndView(params, "AutorizarUsuario.hbs");
     }
 
@@ -43,12 +44,12 @@ public class MenuController {
 
         RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
 
+        boolean resultadoOperacion = repositorioPersonasDB.generarDelegacion(usernameDelegador, usernameDelegado);
 
-        //TODO que vuelva a recargar la pagina y que diga que no puede hacer la delegacion
-        repositorioPersonasDB.generarDelegacion(usernameDelegador, usernameDelegado);
-
-        HashMap<String, String> params = new HashMap<>();
-        return new ModelAndView(params, "MenuUsuario.hbs");
+        HashMap<String, Boolean> params = new HashMap<>();
+        params.put("se_realizo_pedido_operacion", true);
+        params.put("resultado_operacion", resultadoOperacion);
+        return new ModelAndView(params, "AutorizarUsuario.hbs");
     }
 
 
@@ -117,6 +118,7 @@ public class MenuController {
         params.put("nombre",persona.getNombre());
         params.put("apellido", persona.getApellido());
         params.put("dni", persona.getDni());
+        params.put("se_realizo_pedido_operacion", false);
 
         return new ModelAndView(params, "DatosPersona.hbs");
     }
@@ -125,6 +127,8 @@ public class MenuController {
         if(request.session().attribute("usuario") == null)
             response.redirect("/menu_login");
 
+        HashMap<String, Object> params = new HashMap<>();
+
         String nuevoNombre = request.queryParams("Nombre");
         String nuevoApellido = request.queryParams("Apellido");
         String nuevoDni = request.queryParams("DNI");
@@ -132,14 +136,25 @@ public class MenuController {
 
         RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
         Persona persona = repositorioPersonasDB.buscarPersonaPorUsername(request.session().attribute("usuario"));
-        persona.setNombre(nuevoNombre);
-        persona.setApellido(nuevoApellido);
-        persona.setDni(nuevoDni);
+        if(persona != null){
+            persona.setNombre(nuevoNombre);
+            persona.setApellido(nuevoApellido);
+            persona.setDni(nuevoDni);
 
-        repositorioPersonasDB.modificar(persona);
+            repositorioPersonasDB.modificar(persona);
 
-        HashMap<String, Object> params = new HashMap<>();
-        return new ModelAndView(params, "MenuUsuario.hbs");
+            params.put("nombre",persona.getNombre());
+            params.put("apellido", persona.getApellido());
+            params.put("dni", persona.getDni());
+            params.put("resultado_operacion", true);
+        }
+        else{
+            params.put("resultado_operacion", false);
+        }
+
+        params.put("se_realizo_pedido_operacion", true);
+
+        return new ModelAndView(params, "DatosPersona.hbs");
     }
 
     public ModelAndView mostrarReportePersonas(Request request, Response response){

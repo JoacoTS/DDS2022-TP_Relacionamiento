@@ -132,6 +132,20 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src="/js/DatosPersona.js"></script>
 
+{{#if se_realizo_pedido_operacion}}
+    {{#if resultado_operacion}}
+        <script type="text/javascript">
+        window.alert("Operacion realizada correctamente");
+    </script>
+    {{else}}
+        <script type="text/javascript">
+        window.alert("Operacion no se pudo realizar");
+    </script>
+    {{/if}}
+
+
+{{/if}}
+
 </body>
 
 </html>
