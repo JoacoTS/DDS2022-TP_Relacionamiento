@@ -125,6 +125,8 @@ public class RepositorioPersonasDB extends Repositorio<Persona>{
     Persona personaEnviaSolicitud = this.buscarPersonaPorUsername(usernameDelegador);
     Persona personaRecibeSolicitud = this.buscarPersonaPorUsername(usernameDelegado);
 
+    if(personaRecibeSolicitud == null || personaEnviaSolicitud == null) return false;
+
     Delegacion delegacion = new Delegacion(personaRecibeSolicitud, false);
     personaEnviaSolicitud.setDelegacion(delegacion);
 

@@ -43,6 +43,8 @@ public class MenuController {
 
         RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
 
+
+        //TODO que vuelva a recargar la pagina y que diga que no puede hacer la delegacion
         repositorioPersonasDB.generarDelegacion(usernameDelegador, usernameDelegado);
 
         HashMap<String, String> params = new HashMap<>();
