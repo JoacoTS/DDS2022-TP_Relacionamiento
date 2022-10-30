@@ -17,14 +17,18 @@ public class Delegacion {
   @JoinColumn(name="id_personaDelegada",referencedColumnName = "id_persona")
   private Persona personaDelegada;
 
-
+/*
   @OneToOne(cascade=CascadeType.ALL)
   @NotFound(action = NotFoundAction.IGNORE)
   @JoinColumn(name="id_personaTitular",referencedColumnName = "id_persona")
   private Persona personaTitular;
-
+*/
   @Column
   private Boolean aceptada;
+
+  public Delegacion(){
+
+  }
 
   public Delegacion(Persona personaDelegada, Boolean aceptada) {
     this.personaDelegada = personaDelegada;
@@ -32,6 +36,9 @@ public class Delegacion {
     this.aceptada = aceptada;
   }
 
+  public Persona getPersonaDelegada() {
+    return personaDelegada;
+  }
 
   public Boolean validar(){
     this.aceptada = Boolean.TRUE;

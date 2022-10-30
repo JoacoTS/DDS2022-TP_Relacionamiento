@@ -10,6 +10,7 @@ import javax.persistence.criteria.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class RepositorioPersonasDB extends Repositorio<Persona>{
@@ -120,4 +121,39 @@ public class RepositorioPersonasDB extends Repositorio<Persona>{
     return delegaciones;
   }
 
+  public boolean generarDelegacion(String usernameDelegador, String usernameDelegado){
+    Persona personaEnviaSolicitud = this.buscarPersonaPorUsername(usernameDelegador);
+    Persona personaRecibeSolicitud = this.buscarPersonaPorUsername(usernameDelegado);
+
+    Delegacion delegacion = new Delegacion(personaRecibeSolicitud, false);
+    personaEnviaSolicitud.setDelegacion(delegacion);
+
+    RepositorioDelegacionesDB repositorioDelegacionesDB = new RepositorioDelegacionesDB();
+    repositorioDelegacionesDB.dbService.agregar(delegacion);
+
+    this.dbService.modificar(personaEnviaSolicitud);
+    return true;
+  }
+
+  public Persona mostrarPersonaDelegacion(String usernameDelegado){
+    Persona persona = this.buscarPersonaPorUsername(usernameDelegado);
+
+    List<Persona> personas = this.getPersonas();
+
+    Optional<Persona> optionalPersona = personas.stream().filter( unaPersona ->
+            unaPersona.getDelegacion().getPersonaDelegada().getId_persona() == persona.getId_persona()).findAny();
+
+    return optionalPersona.get();
+  }
+
+  public Delegacion mostrarDelegacion(String usernameDelegado){
+    Persona persona = this.buscarPersonaPorUsername(usernameDelegado);
+
+    List<Delegacion> delegaciones = this.getDelegaciones();
+
+    Optional<Delegacion> optionalDelegacion = delegaciones.stream().filter( unaDelegacion ->
+            unaDelegacion.getPersonaDelegada().equals(persona)).findFirst();
+
+    return optionalDelegacion.get();
+  }
 }

@@ -63,13 +63,14 @@
             </thead>
 
             <tbody>
-            {{#each solicitudes}}
                 <tr>
-                    <td>{{username}}</td>
-                    <td><button id="acceptar" type="button" class="button button-accept" onclick="window.location.href = '/aceptar_solicitud/{{username}}'" > Aceptar </button></td>
-                    <td><button id="rechazar" type="button" class="button button-deny" onclick="window.location.href = '/rechazar_solicitud/{{username}}'"> Rechazar </button></td>
+                    <td>{{solicitud.username}}</td>
+                    {{#if delegacion.aceptada}}
+                        <td><button id="rechazar" type="button" class="button button-deny" onclick="window.location.href = '/rechazar_solicitud/{{solicitud.username}}'"> Rechazar </button></td>
+                    {{else}}
+                        <td><button id="acceptar" type="button" class="button button-accept" onclick="window.location.href = '/aceptar_solicitud/{{solicitud.username}}'" > Aceptar </button></td>
+                    {{/if}}
                 </tr>
-            {{/each}}
             </tbody>
 
         </table>

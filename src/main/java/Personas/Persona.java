@@ -71,6 +71,10 @@ public class Persona {
   //GETTERS
 
 
+  public int getId_persona() {
+    return id_persona;
+  }
+
   public Delegacion getDelegacion() {
     return delegacion;
   }

@@ -1,5 +1,8 @@
 package Controllers;
 
+import Personas.Delegacion;
+import Personas.Persona;
+import Repositorios.RepositorioPersonasDB;
 import Usuarios.Usuario;
 import spark.ModelAndView;
 import spark.Request;
@@ -34,12 +37,16 @@ public class MenuController {
         if(request.session().attribute("usuario") == null)
             response.redirect("/menu_login");
 
-        //TODO: Agregar solicitud con usuario
-        String usuarioSolicitador = request.session().attribute("usuario");
-        String usuarioAutorizado = request.params("usuario_autorizado");
+        String usernameDelegador = request.session().attribute("usuario");
+        String usernameDelegado = request.queryParams("usuario_autorizado");
+
+        RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
+
+        repositorioPersonasDB.generarDelegacion(usernameDelegador, usernameDelegado);
 
         HashMap<String, String> params = new HashMap<>();
-        return new ModelAndView(params, "AutorizarUsuario.hbs");
+        ModelAndView modelAndView = new ModelAndView(params, "MenuUsuario.hbs");
+        return modelAndView;
     }
 
     public ModelAndView menuSolicitudesAutorizacion(Request request, Response response){
@@ -48,17 +55,17 @@ public class MenuController {
             response.redirect("/menu_login");
 
         HashMap<String, Object> params = new HashMap<>();
-        //TODO: buscar solicitudes de usuario
+
         String usuario = request.session().attribute("usuario");
 
-        Usuario usuario1 = new Usuario("a","asgasdfasgasvse");
-        Usuario usuario2 = new Usuario("b", "asgasdfasgasvse");
+        RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
+        Persona personaDelegada = repositorioPersonasDB.mostrarPersonaDelegacion(usuario);
 
-        List<Usuario> solicitudes = new ArrayList<>();
-        solicitudes.add(usuario1);
-        solicitudes.add(usuario2);
+        Usuario usuarioDelegado = personaDelegada.getUsuario();
+        Delegacion delegacion = repositorioPersonasDB.mostrarDelegacion(usuario);
 
-        params.put("solicitudes", solicitudes);
+        params.put("solicitud", usuarioDelegado);
+        params.put("delegacion", delegacion);
         return new ModelAndView(params, "SolicitudesAutorizacion.hbs");
     }
 

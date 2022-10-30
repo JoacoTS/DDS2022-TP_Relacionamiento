@@ -1,11 +1,16 @@
 package Controllers;
 
 import JSON.InterpreteJson;
+import Repositorios.RepositorioPersonasDB;
+import Repositorios.RepositorioUsuariosDB;
+import Usuarios.Excepciones.ContraseniaEsInvalidaException;
 import Usuarios.Usuario;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,44 +27,51 @@ public class LoginController {
   }
 
   public ModelAndView loguear_usuario(Request request, Response response){
-    String nombre_usuario = request.queryParams("usuario");
+    String nombreUsuario = request.queryParams("usuario");
     String password = request.queryParams("password");
 
-    System.out.println(nombre_usuario);
-    System.out.println(password);
-    //TODO: Verificar usuario
-    //if no coincide -> pagina = "Login.hbs"
-    //else -> pagina = "MenuUsuario.hbs"
-    String pagina = "Login.hbs";
+    String pagina;
+    RepositorioUsuariosDB repositorioUsuariosDB = new RepositorioUsuariosDB();
+    try{
+      Usuario u = repositorioUsuariosDB.validarLogueoUsuario(nombreUsuario, password);
+
+      if(u != null){
+        //TODO: Verificar si es Admin
+        pagina = "MenuUsuario.hbs";
+        request.session().attribute("usuario", u.getUsername());
+      }
+      else{
+        pagina = "Login.hbs";
+      }
+    }
+    catch (ContraseniaEsInvalidaException e){
+      pagina = "Login.hbs";
+    }
 
     HashMap<String, String> params = new HashMap<>();
-    params.put("usuario", nombre_usuario);
 
     return new ModelAndView(params, pagina);
   }
 
   public ModelAndView registrar_usuario(Request request, Response response){
-    Usuario usuario = new Usuario();
+    Usuario usuario = new Usuario(request.queryParams("usuario"), request.queryParams("password"));
 
+    String nombre = request.queryParams("Nombre");
+    String apellido = request.queryParams("Apellido");
+    //TODO: guardar fecha
+    String fechaNac = request.queryParams("Fecha de nacimiento");
+    String dni = request.queryParams("DNI");
+    //TODO: guardar localidad y ciudad
+    //request.queryParams("Ciudad");
+    //request.queryParams("Localidad");
+//LocalDate.parse(fechaNac, DateTimeFormatter.ofPattern("DD MM AAAA"))
 
-    //TODO: Verificar que exista Persona en base de datos
-    request.queryParams("Nombre");
-    request.queryParams("Apellido");
-    request.queryParams("Fecha de nacimiento");
-    request.queryParams("Ciudad");
-    request.queryParams("Localidad");
+    RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
+    repositorioPersonasDB.crearPersona(nombre, apellido, dni, usuario, LocalDate.now());
 
-    usuario.setUsername(request.queryParams("usuario"));
+    request.session().attribute("usuario", usuario.getUsername());
+    //response.redirect("/menu_usuario");
 
-    //TODO: hashear contrasenia
-    String contraHasheada = request.queryParams("password");
-    usuario.setContraHasheada(contraHasheada);
-
-    //if persona existe -> response.redirect
-    request.session().attribute("usuario", request.queryParams("usuario"));
-    response.redirect("/menu_usuario");
-    //response.redirect("/menu_usuario/"+request.queryParams("usuario"));
-    //else "Login.hbs"
     return new ModelAndView(new HashMap<>(), "Login.hbs");
   }
 
