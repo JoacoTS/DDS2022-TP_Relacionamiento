@@ -77,6 +77,7 @@ public class RepositorioUsuariosDB extends Repositorio<Usuario> {
 
   public Usuario validarLogueoUsuario(String username, String contra){
     Usuario usuarioConUsername = buscarUsuario(username);
+
     //Si no encuentra el usuario por username
     if(!existe(username)){
       return null;

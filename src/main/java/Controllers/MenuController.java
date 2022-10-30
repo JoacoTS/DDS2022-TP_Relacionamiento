@@ -100,4 +100,69 @@ public class MenuController {
 
         return new ModelAndView(params, "MenuUsuario.hbs");
     }
+
+    public ModelAndView menuModificarDatos(Request request, Response response){
+        if(request.session().attribute("usuario") == null)
+            response.redirect("/menu_login");
+
+        String usuario = request.session().attribute("usuario");
+
+        RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
+        Persona persona = repositorioPersonasDB.buscarPersonaPorUsername(usuario);
+
+        HashMap<String, Object> params = new HashMap<>();
+
+        params.put("nombre",persona.getNombre());
+        params.put("apellido", persona.getApellido());
+        params.put("dni", persona.getDni());
+
+        return new ModelAndView(params, "DatosPersona.hbs");
+    }
+
+    public ModelAndView guardarCambiosPersona(Request request, Response response){
+        if(request.session().attribute("usuario") == null)
+            response.redirect("/menu_login");
+
+        String nuevoNombre = request.queryParams("Nombre");
+        String nuevoApellido = request.queryParams("Apellido");
+        String nuevoDni = request.queryParams("DNI");
+
+
+        RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
+        Persona persona = repositorioPersonasDB.buscarPersonaPorUsername(request.session().attribute("usuario"));
+        persona.setNombre(nuevoNombre);
+        persona.setApellido(nuevoApellido);
+        persona.setDni(nuevoDni);
+
+        repositorioPersonasDB.modificar(persona);
+
+        HashMap<String, Object> params = new HashMap<>();
+        return new ModelAndView(params, "MenuUsuario.hbs");
+    }
+
+    public ModelAndView mostrarReportePersonas(Request request, Response response){
+        if(request.session().attribute("usuario") == null)
+            response.redirect("/menu_login");
+
+        RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
+        List<Persona> personas = repositorioPersonasDB.getPersonas();
+
+        HashMap<String, Object> params = new HashMap<>();
+
+        params.put("personas", personas);
+        return new ModelAndView(params, "ReportePersonas.hbs");
+    }
+
+    public ModelAndView mostrarReporteDelegaciones(Request request, Response response){
+        if(request.session().attribute("usuario") == null)
+            response.redirect("/menu_login");
+
+        RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
+        List<Delegacion> delegaciones = repositorioPersonasDB.getDelegaciones();
+
+        HashMap<String, Object> params = new HashMap<>();
+
+        params.put("delegaciones", delegaciones);
+        return new ModelAndView(params, "ReportePersonas.hbs");
+    }
 }

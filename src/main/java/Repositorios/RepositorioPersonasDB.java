@@ -141,6 +141,8 @@ public class RepositorioPersonasDB extends Repositorio<Persona>{
     List<Persona> personas = this.getPersonas();
 
     return personas.stream().filter(unaPersona ->
+            unaPersona.getDelegacion() != null
+            &&
             unaPersona.getDelegacion().getPersonaDelegada().equals(persona)).findAny();
   }
 

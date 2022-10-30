@@ -3,6 +3,7 @@ package Controllers;
 import JSON.InterpreteJson;
 import Repositorios.RepositorioPersonasDB;
 import Repositorios.RepositorioUsuariosDB;
+import Usuarios.Admin;
 import Usuarios.Excepciones.ContraseniaEsInvalidaException;
 import Usuarios.Usuario;
 import spark.ModelAndView;
@@ -23,6 +24,8 @@ public class LoginController {
 
   public ModelAndView menu_login(Request request, Response response){
     Map<String, Object> parametros = new HashMap<>();
+    request.session().attribute("usuario", null);
+
     return new ModelAndView(parametros,"Login.hbs");
   }
 
@@ -36,8 +39,10 @@ public class LoginController {
       Usuario u = repositorioUsuariosDB.validarLogueoUsuario(nombreUsuario, password);
 
       if(u != null){
-        //TODO: Verificar si es Admin
-        pagina = "MenuUsuario.hbs";
+        if(u instanceof Admin)
+            pagina = "MenuAdmin.hbs";
+        else
+            pagina = "MenuUsuario.hbs";
         request.session().attribute("usuario", u.getUsername());
       }
       else{
@@ -72,6 +77,11 @@ public class LoginController {
     request.session().attribute("usuario", usuario.getUsername());
     //response.redirect("/menu_usuario");
 
+    return new ModelAndView(new HashMap<>(), "Login.hbs");
+  }
+
+  public ModelAndView cerrarSesion(Request request, Response response){
+    request.session().attribute("usuario", null);
     return new ModelAndView(new HashMap<>(), "Login.hbs");
   }
 
