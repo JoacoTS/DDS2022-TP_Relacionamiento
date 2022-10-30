@@ -65,7 +65,7 @@
             <tbody>
                 <tr>
                     <td>{{solicitud.username}}</td>
-                    {{#if delegacion.aceptada}}
+                    {{#if aceptada}}
                         <td><button id="rechazar" type="button" class="button button-deny" onclick="window.location.href = '/rechazar_solicitud/{{solicitud.username}}'"> Rechazar </button></td>
                     {{else}}
                         <td><button id="acceptar" type="button" class="button button-accept" onclick="window.location.href = '/aceptar_solicitud/{{solicitud.username}}'" > Aceptar </button></td>

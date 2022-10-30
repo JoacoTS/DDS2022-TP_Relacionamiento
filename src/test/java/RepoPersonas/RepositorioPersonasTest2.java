@@ -11,15 +11,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class RepositorioPersonasTest2 {
     public static void main(String[] args) {
         RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
-        Persona personaDelegada = repositorioPersonasDB.mostrarPersonaDelegacion("usuario2");
+        Optional<Persona> optionalPersona = repositorioPersonasDB.mostrarPersonaDelegacion("usuario2");
+        Persona personaDelegada;
+        Delegacion delegacion;
 
-        Usuario usuarioDelegado = personaDelegada.getUsuario();
-        Delegacion delegacion = repositorioPersonasDB.mostrarDelegacion("usuario2");
 
-        Assertions.assertEquals(personaDelegada.getDelegacion(), delegacion);
+
     }
 }

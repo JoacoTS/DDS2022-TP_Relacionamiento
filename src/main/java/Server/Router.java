@@ -50,7 +50,7 @@ public class Router {
     Spark.get("/menu_autorizar_usuario", menuController::menuAutorizarUsuario, Router.engine);
     Spark.get("/menu_solicitudes_autorizacion", menuController::menuSolicitudesAutorizacion, Router.engine);
     Spark.get("/aceptar_solicitud/:username", menuController::aceptarAutorizacion, Router.engine);
-    Spark.get("/rechazar_solicitud/:username", menuController::aceptarAutorizacion, Router.engine);
+    Spark.get("/rechazar_solicitud/:username", menuController::rechazarAutorizacion, Router.engine);
 
     Spark.post("/menu_login", loginController::loguear_usuario, Router.engine);
     Spark.post("/menu_login/r", loginController::registrar_usuario, Router.engine);

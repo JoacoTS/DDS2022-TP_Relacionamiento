@@ -40,8 +40,16 @@ public class Delegacion {
     return personaDelegada;
   }
 
+  public void setAceptada(Boolean aceptada) {
+    this.aceptada = aceptada;
+  }
+
   public Boolean validar(){
     this.aceptada = Boolean.TRUE;
     return true;
+  }
+
+  public Boolean isAceptada() {
+    return aceptada;
   }
 }

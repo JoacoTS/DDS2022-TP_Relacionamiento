@@ -11,6 +11,7 @@ import spark.Response;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class MenuController {
 
@@ -45,9 +46,9 @@ public class MenuController {
         repositorioPersonasDB.generarDelegacion(usernameDelegador, usernameDelegado);
 
         HashMap<String, String> params = new HashMap<>();
-        ModelAndView modelAndView = new ModelAndView(params, "MenuUsuario.hbs");
-        return modelAndView;
+        return new ModelAndView(params, "MenuUsuario.hbs");
     }
+
 
     public ModelAndView menuSolicitudesAutorizacion(Request request, Response response){
 
@@ -59,13 +60,17 @@ public class MenuController {
         String usuario = request.session().attribute("usuario");
 
         RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
-        Persona personaDelegada = repositorioPersonasDB.mostrarPersonaDelegacion(usuario);
+        Optional<Persona> personaDelegada = repositorioPersonasDB.mostrarPersonaDelegacion(usuario);
 
-        Usuario usuarioDelegado = personaDelegada.getUsuario();
-        Delegacion delegacion = repositorioPersonasDB.mostrarDelegacion(usuario);
+        Usuario usuarioDelegado;
+
+        usuarioDelegado = personaDelegada.map(Persona::getUsuario).orElse(null);
+
+        Optional<Delegacion> delegacion = repositorioPersonasDB.mostrarDelegacion(usuario);
 
         params.put("solicitud", usuarioDelegado);
-        params.put("delegacion", delegacion);
+        delegacion.ifPresent(value -> params.put("delegacion", value));
+        delegacion.ifPresent(value -> params.put("aceptada", value.isAceptada()));
         return new ModelAndView(params, "SolicitudesAutorizacion.hbs");
     }
 
@@ -74,13 +79,12 @@ public class MenuController {
             response.redirect("/menu_login");
 
         String usuarioAceptado = request.params("username");
-        //TODO: aceptar autorizacion
 
-        //TODO: volver a buscar solicitudes
-        List<Usuario> solicitudes = new ArrayList<>();
+        RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
+        repositorioPersonasDB.cambiarAutorizacionDelegacion(usuarioAceptado,true);
+
         HashMap<String, Object> params = new HashMap<>();
-
-        return new ModelAndView(params, "SolicitudesAutorizacion.hbs");
+        return new ModelAndView(params, "MenuUsuario.hbs");
     }
 
     public ModelAndView rechazarAutorizacion(Request request, Response response){
@@ -88,12 +92,12 @@ public class MenuController {
             response.redirect("/menu_login");
 
         String usuarioAceptado = request.params("username");
-        //TODO: aceptar autorizacion
 
-        //TODO: volver a buscar solicitudes
-        List<Usuario> solicitudes = new ArrayList<>();
+        RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
+        repositorioPersonasDB.cambiarAutorizacionDelegacion(usuarioAceptado,false);
+
         HashMap<String, Object> params = new HashMap<>();
 
-        return new ModelAndView(params, "SolicitudesAutorizacion.hbs");
+        return new ModelAndView(params, "MenuUsuario.hbs");
     }
 }

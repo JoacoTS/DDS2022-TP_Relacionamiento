@@ -135,25 +135,29 @@ public class RepositorioPersonasDB extends Repositorio<Persona>{
     return true;
   }
 
-  public Persona mostrarPersonaDelegacion(String usernameDelegado){
+  public Optional<Persona> mostrarPersonaDelegacion(String usernameDelegado){
     Persona persona = this.buscarPersonaPorUsername(usernameDelegado);
 
     List<Persona> personas = this.getPersonas();
 
-    Optional<Persona> optionalPersona = personas.stream().filter( unaPersona ->
-            unaPersona.getDelegacion().getPersonaDelegada().getId_persona() == persona.getId_persona()).findAny();
-
-    return optionalPersona.get();
+    return personas.stream().filter(unaPersona ->
+            unaPersona.getDelegacion().getPersonaDelegada().equals(persona)).findAny();
   }
 
-  public Delegacion mostrarDelegacion(String usernameDelegado){
+  public Optional<Delegacion> mostrarDelegacion(String usernameDelegado){
     Persona persona = this.buscarPersonaPorUsername(usernameDelegado);
 
     List<Delegacion> delegaciones = this.getDelegaciones();
 
-    Optional<Delegacion> optionalDelegacion = delegaciones.stream().filter( unaDelegacion ->
+    return delegaciones.stream().filter(unaDelegacion ->
             unaDelegacion.getPersonaDelegada().equals(persona)).findFirst();
+  }
 
-    return optionalDelegacion.get();
+  public void cambiarAutorizacionDelegacion(String usernameDelegador, boolean cambio){
+    Persona personaDolegador = this.buscarPersonaPorUsername(usernameDelegador);
+
+    personaDolegador.getDelegacion().setAceptada(cambio);
+
+    this.dbService.modificar(personaDolegador.getDelegacion());
   }
 }
