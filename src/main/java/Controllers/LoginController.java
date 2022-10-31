@@ -81,7 +81,7 @@ public class LoginController {
   }
 
   public ModelAndView cerrarSesion(Request request, Response response){
-    request.session().attribute("usuario", null);
+    this.logout(request, response);
     return new ModelAndView(new HashMap<>(), "Login.hbs");
   }
 
