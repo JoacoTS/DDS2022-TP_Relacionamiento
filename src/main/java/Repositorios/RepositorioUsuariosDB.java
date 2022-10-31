@@ -17,11 +17,8 @@ public class RepositorioUsuariosDB extends Repositorio<Usuario> {
 
   public RepositorioUsuariosDB() {
     super(new DBHibernate<Usuario>(Usuario.class));
-    this.usuariosBuffer = new ArrayList<>();
   }
 
-
-  private List<Usuario> usuariosBuffer;
 
   public Boolean existe(String nombreDeUsuario, String contrasenia){
     return buscarUsuario(nombreDeUsuario, contrasenia) != null;
@@ -76,7 +73,10 @@ public class RepositorioUsuariosDB extends Repositorio<Usuario> {
 
 
   public Usuario validarLogueoUsuario(String username, String contra){
-    Usuario usuarioConUsername = buscarUsuario(username);
+    RepositorioAdminDB repositorioAdminDB = new RepositorioAdminDB();
+    Usuario usuarioConUsername = null;
+    if(buscarUsuario(username) != null) usuarioConUsername = buscarUsuario(username);
+    if (repositorioAdminDB.buscarAdmin(username) != null) usuarioConUsername = repositorioAdminDB.buscarAdmin(username);
 
     //Si no encuentra el usuario por username
     if(!existe(username)){

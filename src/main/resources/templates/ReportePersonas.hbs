@@ -63,13 +63,13 @@
             </thead>
 
             <tbody>
+            {{#each personas}}
             <tr>
-                {{#each persona}}
-                <td>{{persona.nombre}}</td>
-                <td>{{persona.apellido}}</td>
-                <td>{{persona.dni}}</td>
-                {{/each}}
+                <td>{{nombre}}</td>
+                <td>{{apellido}}</td>
+                <td>{{dni}}</td>
             </tr>
+            {{/each}}
             </tbody>
 
         </table>

@@ -146,4 +146,18 @@ public class Persona {
   public Boolean registrar(){
     return true;
   }
+
+  @Override
+  public String toString() {
+    return "Persona{" +
+        "fechaNacimiento=" + fechaNacimiento +
+        ", localidad=" + localidad +
+        ", foto='" + foto + '\'' +
+        ", dni='" + dni + '\'' +
+        ", nombre='" + nombre + '\'' +
+        ", apellido='" + apellido + '\'' +
+        ", delegacion=" + delegacion +
+        ", usuario=" + usuario +
+        '}';
+  }
 }

@@ -51,28 +51,28 @@
     <div class="form">
         <br>
 
-        <h2>Personas</h2>
+        <h2>Delegaciones</h2>
 
         <br>
         <table>
 
             <thead>
 
-            <th>Persona</th>
+            <th>Delegacion</th>
 
             </thead>
 
             <tbody>
+            {{#each delegaciones}}
             <tr>
-                {{#each delegacion}}
-                    <td>{{delegacion.personaDelegada}}</td>
-                    {{#if aceptada}}
-                        <td> Aceptada </td>
-                    {{else}}
-                        <td> Rechazada </td>
-                    {{/if}}
-                {{/each}}
+                <td>{{personaDelegada.nombre}}</td>
+                {{#if aceptada}}
+                    <td> Aceptada </td>
+                {{else}}
+                    <td> Rechazada </td>
+                {{/if}}
             </tr>
+            {{/each}}
             </tbody>
 
         </table>

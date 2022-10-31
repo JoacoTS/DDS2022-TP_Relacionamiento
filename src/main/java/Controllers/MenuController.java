@@ -184,6 +184,6 @@ public class MenuController {
         HashMap<String, Object> params = new HashMap<>();
 
         params.put("delegaciones", delegaciones);
-        return new ModelAndView(params, "ReportePersonas.hbs");
+        return new ModelAndView(params, "ReporteDelegaciones.hbs");
     }
 }

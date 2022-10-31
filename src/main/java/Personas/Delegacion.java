@@ -52,4 +52,12 @@ public class Delegacion {
   public Boolean isAceptada() {
     return aceptada;
   }
+
+  @Override
+  public String toString() {
+    return "Delegacion{" +
+        "personaDelegada=" + personaDelegada +
+        ", aceptada=" + aceptada +
+        '}';
+  }
 }

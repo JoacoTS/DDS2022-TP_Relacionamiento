@@ -21,6 +21,9 @@ public class Admin extends Usuario {
 
   //////////////////////////////////  INTERFACE
 
+  public Admin() {
+  }
+
 
   //TODO faltan los reportes y la autorizacion de Delegacion
 
