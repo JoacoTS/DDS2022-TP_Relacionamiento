@@ -8,6 +8,7 @@ import Usuarios.Usuario;
 
 import javax.persistence.criteria.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -140,12 +141,18 @@ public class RepositorioPersonasDB extends Repositorio<Persona>{
   public Optional<Persona> mostrarPersonaDelegacion(String usernameDelegado){
     Persona persona = this.buscarPersonaPorUsername(usernameDelegado);
 
-    List<Persona> personas = this.getPersonas();
+    List<Persona> personas = new ArrayList<>();
 
-    return personas.stream().filter(unaPersona ->
-            unaPersona.getDelegacion() != null
-            &&
-            unaPersona.getDelegacion().getPersonaDelegada().equals(persona)).findAny();
+    personas = this.getPersonas();
+
+    try {
+      return personas.stream().filter(unaPersona ->
+          unaPersona.getDelegacion().getPersonaDelegada().equals(persona)).findAny();
+    }
+    catch (NullPointerException e){
+      return Optional.empty();
+    }
+
   }
 
   public Optional<Delegacion> mostrarDelegacion(String usernameDelegado){
@@ -153,8 +160,13 @@ public class RepositorioPersonasDB extends Repositorio<Persona>{
 
     List<Delegacion> delegaciones = this.getDelegaciones();
 
-    return delegaciones.stream().filter(unaDelegacion ->
-            unaDelegacion.getPersonaDelegada().equals(persona)).findFirst();
+    try{
+      return delegaciones.stream().filter(unaDelegacion ->
+          unaDelegacion.getPersonaDelegada().equals(persona)).findAny();
+    }
+    catch (NullPointerException e){
+      return Optional.empty();
+    }
   }
 
   public void cambiarAutorizacionDelegacion(String usernameDelegador, boolean cambio){

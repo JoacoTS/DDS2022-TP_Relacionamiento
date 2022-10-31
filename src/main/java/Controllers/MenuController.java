@@ -65,15 +65,19 @@ public class MenuController {
         RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
         Optional<Persona> personaDelegada = repositorioPersonasDB.mostrarPersonaDelegacion(usuario);
 
-        Usuario usuarioDelegado;
 
-        usuarioDelegado = personaDelegada.map(Persona::getUsuario).orElse(null);
+        Optional<Usuario> usuarioDelegado = personaDelegada.map(Persona::getUsuario);
 
         Optional<Delegacion> delegacion = repositorioPersonasDB.mostrarDelegacion(usuario);
 
-        params.put("solicitud", usuarioDelegado);
+        usuarioDelegado.ifPresent(value -> params.put("solicitud", value));
         delegacion.ifPresent(value -> params.put("delegacion", value));
         delegacion.ifPresent(value -> params.put("aceptada", value.isAceptada()));
+
+        if(delegacion.isPresent() && usuarioDelegado.isPresent())
+            params.put("se_realizo_pedido_operacion", true);
+        else
+            params.put("se_realizo_pedido_operacion", false);
         return new ModelAndView(params, "SolicitudesAutorizacion.hbs");
     }
 

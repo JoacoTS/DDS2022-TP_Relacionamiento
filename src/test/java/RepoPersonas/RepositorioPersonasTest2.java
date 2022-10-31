@@ -15,10 +15,22 @@ import java.util.Optional;
 
 public class RepositorioPersonasTest2 {
     public static void main(String[] args) {
+
         RepositorioPersonasDB repositorioPersonasDB = new RepositorioPersonasDB();
-        Optional<Persona> optionalPersona = repositorioPersonasDB.mostrarPersonaDelegacion("usuario2");
-        Persona personaDelegada;
-        Delegacion delegacion;
+        Optional<Persona> personaDelegada;
+
+        personaDelegada = repositorioPersonasDB.mostrarPersonaDelegacion("tomas");
+
+
+        Optional<Usuario> usuarioDelegado = personaDelegada.map(Persona::getUsuario);
+
+        Optional<Delegacion> delegacion = repositorioPersonasDB.mostrarDelegacion("tomas");
+
+        usuarioDelegado.ifPresent(value -> System.out.println("el valor de usuario delegado " + value));
+
+        delegacion.ifPresent(value -> System.out.println("el valor de delegacion " + value));
+
+        delegacion.ifPresent(value -> System.out.println("el valor de delegacion aceptada " + value.isAceptada()));
 
 
 
