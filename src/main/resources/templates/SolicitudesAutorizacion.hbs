@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aceptar Miembros</title>
+    <link rel="stylesheet" type="text/css" href="/css/SolicitudesAutorizacion.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://startbootstrap.com/templates/agency/font-awesome-4.1.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+</head>
+
+<body id="page-top" class="index" data-pinterest-extension-installed="cr1.3.4">
+
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-fixed-top navbar-shrink">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <p class="navbar-brand" href="#page-top">Solicitudes Autorizacion</p>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="hidden active">
+                    <a href="#page-top"></a>
+                </li>
+                <li class="">
+                    <a class="home" href="/menu_usuario"> Home </a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="/cerrar_sesion">Cerrar Sesión</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+<br>
+<br>
+<br>
+
+<section id="team" class="bg-light-gray">
+    <div class="form">
+        <br>
+        <h2>Solicitudes</h2>
+        <br>
+
+        {{#if se_realizo_pedido_operacion}}
+        <table>
+
+            <thead>
+
+            <th>Usuario</th>
+
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>{{solicitud.username}}</td>
+                    {{#if aceptada}}
+                        <td><button id="rechazar" type="button" class="button button-deny" onclick="window.location.href = '/rechazar_solicitud/{{solicitud.username}}'"> Rechazar </button></td>
+                    {{else}}
+                        <td><button id="acceptar" type="button" class="button button-accept" onclick="window.location.href = '/aceptar_solicitud/{{solicitud.username}}'" > Aceptar </button></td>
+                    {{/if}}
+                </tr>
+            </tbody>
+
+        </table>
+            {{/if}}
+    </div>
+</section>
+
+</body>

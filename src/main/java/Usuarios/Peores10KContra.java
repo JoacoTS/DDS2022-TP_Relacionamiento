@@ -39,7 +39,6 @@ public class Peores10KContra implements CriterioValidacion {
       }
       myReader.close();
     } catch (FileNotFoundException e) {
-      //todo poner una mejor excepcion
       throw new ArchivoInaccesibleException();
     }
 

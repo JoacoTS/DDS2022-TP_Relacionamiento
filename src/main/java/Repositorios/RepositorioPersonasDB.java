@@ -8,8 +8,10 @@ import Usuarios.Usuario;
 
 import javax.persistence.criteria.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class RepositorioPersonasDB extends Repositorio<Persona>{
@@ -120,4 +122,58 @@ public class RepositorioPersonasDB extends Repositorio<Persona>{
     return delegaciones;
   }
 
+  public boolean generarDelegacion(String usernameDelegador, String usernameDelegado){
+    Persona personaEnviaSolicitud = this.buscarPersonaPorUsername(usernameDelegador);
+    Persona personaRecibeSolicitud = this.buscarPersonaPorUsername(usernameDelegado);
+
+    if(personaRecibeSolicitud == null || personaEnviaSolicitud == null) return false;
+
+    Delegacion delegacion = new Delegacion(personaRecibeSolicitud, false);
+    personaEnviaSolicitud.setDelegacion(delegacion);
+
+    RepositorioDelegacionesDB repositorioDelegacionesDB = new RepositorioDelegacionesDB();
+    repositorioDelegacionesDB.dbService.agregar(delegacion);
+
+    this.dbService.modificar(personaEnviaSolicitud);
+    return true;
+  }
+
+  public Optional<Persona> mostrarPersonaDelegacion(String usernameDelegado){
+    Persona persona = this.buscarPersonaPorUsername(usernameDelegado);
+
+    List<Persona> personas = new ArrayList<>();
+
+    personas = this.getPersonas();
+
+    try {
+      return personas.stream().filter(unaPersona ->
+          unaPersona.getDelegacion().getPersonaDelegada().equals(persona)).findAny();
+    }
+    catch (NullPointerException e){
+      return Optional.empty();
+    }
+
+  }
+
+  public Optional<Delegacion> mostrarDelegacion(String usernameDelegado){
+    Persona persona = this.buscarPersonaPorUsername(usernameDelegado);
+
+    List<Delegacion> delegaciones = this.getDelegaciones();
+
+    try{
+      return delegaciones.stream().filter(unaDelegacion ->
+          unaDelegacion.getPersonaDelegada().equals(persona)).findAny();
+    }
+    catch (NullPointerException e){
+      return Optional.empty();
+    }
+  }
+
+  public void cambiarAutorizacionDelegacion(String usernameDelegador, boolean cambio){
+    Persona personaDolegador = this.buscarPersonaPorUsername(usernameDelegador);
+
+    personaDolegador.getDelegacion().setAceptada(cambio);
+
+    this.dbService.modificar(personaDolegador.getDelegacion());
+  }
 }

@@ -71,6 +71,10 @@ public class Persona {
   //GETTERS
 
 
+  public int getId_persona() {
+    return id_persona;
+  }
+
   public Delegacion getDelegacion() {
     return delegacion;
   }
@@ -141,5 +145,19 @@ public class Persona {
   //TODO para el JSON
   public Boolean registrar(){
     return true;
+  }
+
+  @Override
+  public String toString() {
+    return "Persona{" +
+        "fechaNacimiento=" + fechaNacimiento +
+        ", localidad=" + localidad +
+        ", foto='" + foto + '\'' +
+        ", dni='" + dni + '\'' +
+        ", nombre='" + nombre + '\'' +
+        ", apellido='" + apellido + '\'' +
+        ", delegacion=" + delegacion +
+        ", usuario=" + usuario +
+        '}';
   }
 }

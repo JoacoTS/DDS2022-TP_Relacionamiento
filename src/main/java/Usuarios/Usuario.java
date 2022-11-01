@@ -51,8 +51,11 @@ public class Usuario {
       this.username = username;
     }
 
-    public void setContraHasheada(String contraHasheada) {
-      this.contraHasheada = contraHasheada;
+    public void setContraHasheada(String contra) {
+      if(!isContraseniaValida(contra)){
+        throw new ContraseniaEsInvalidaException("no pasa por alguna de las validaciones de seguridad");
+      }
+      this.contraHasheada = generateHash(contra);
     }
 
     //////////////////////////////////  SETTERS
