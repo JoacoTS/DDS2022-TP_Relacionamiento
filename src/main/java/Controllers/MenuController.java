@@ -3,6 +3,8 @@ package Controllers;
 import Personas.Delegacion;
 import Personas.Persona;
 import Repositorios.RepositorioPersonasDB;
+import Repositorios.RepositorioUsuariosDB;
+import Usuarios.Admin;
 import Usuarios.Usuario;
 import spark.ModelAndView;
 import spark.Request;
@@ -21,7 +23,17 @@ public class MenuController {
         if(request.session().attribute("usuario") == null)
             response.redirect("/menu_login");
 
-        return new ModelAndView(params, "MenuUsuario.hbs");
+        RepositorioUsuariosDB repositorioUsuariosDB = new RepositorioUsuariosDB();
+        Usuario usuario = repositorioUsuariosDB.buscarUsuario(request.session().attribute("usuario"));
+
+        String pagina;
+
+        if(usuario instanceof Admin)
+            pagina = "MenuAdmin.hbs";
+        else
+            pagina = "MenuUsuario.hbs";
+
+        return new ModelAndView(params, pagina);
     }
 
     public ModelAndView menuAutorizarUsuario(Request request, Response response){
