@@ -10,8 +10,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class RepositorioUsuariosDB extends Repositorio<Usuario> {
 
@@ -77,6 +79,8 @@ public class RepositorioUsuariosDB extends Repositorio<Usuario> {
     Usuario usuarioConUsername = null;
     if(buscarUsuario(username) != null) usuarioConUsername = buscarUsuario(username);
     if (repositorioAdminDB.buscarAdmin(username) != null) usuarioConUsername = repositorioAdminDB.buscarAdmin(username);
+
+    if(usuarioConUsername == null) return null;
 
     //Si no encuentra el usuario por username
     if(!existe(username)){
